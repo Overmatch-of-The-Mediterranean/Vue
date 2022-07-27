@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+
+        // 插值表达式{{}},里面只可以放变量和表达式
+        // v-html="message"，该指令是以html的形式展示内容,记得删除模板中的内容，否则会警告
+        // v-bind:title="hhh",该指令将标签的属性与数据绑定，可以用来控制表单让不让输入内容,v-bind:title="hhh"可以简写为:title="hhh"
+        // v-once，该指令可以阻止被渲染数据的变化，可以减少无用的渲染，提高性能
+        // v-if="show"，该指令用来控制，标签是否显示
+        // v-on，该指令用来做事件的绑定，例如，v-on:click="xxx"，且事件绑定的方法要写在methods里面
+        // v-on:click="xxx"可以简写为@click="xxx"
+
+        // 动态属性v-bind:[name]="title",也可以在绑定事件上使用@[event]="handleClick"
+        // 修饰符：@click.prevent="handleClick",可以简化常用代码的编写
+
+        const app = Vue.createApp({
+            data(){
+                return {
+                    message:'<strong>hello world</strong>',
+                    title:'我是title',
+                    show:true,
+                    name:'title',
+                    event:'mouseenter'
+                }
+            },
+            methods:{
+                handleClick(){
+                    console.log('哈哈哈');
+                }
+            },
+            template:`
+            <div 
+            v-html="message"
+            v-once
+            v-if="show"
+            @[event]="handleClick"
+            :[name]="title"
+            >
+            </div>
+
+            <form 
+            action="https://www.baidu.com"
+            @click.prevent="handleClick"
+            >
+                <button type="submit">提交</button>    
+            </form>
+            `
+            
+        });
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>

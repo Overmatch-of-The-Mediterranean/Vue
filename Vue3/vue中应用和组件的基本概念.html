@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // createApp 表示创建一个Vue应用
+        // Vue面向数据的编程方式参考了MVVM的设计模式
+        // m->model数据    v->view视图    vm->视图数据连接层
+        const app = Vue.createApp({
+            data(){
+                return {
+                    message:'hello world'
+                }
+            },
+            template:`<div>{{message}}</div>`
+        })
+        // app.mount返回的就是Vue应用的根组件，也就是视图数据连接层
+        // 想要获取根组件的数据，需要加$,即$data.message
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>

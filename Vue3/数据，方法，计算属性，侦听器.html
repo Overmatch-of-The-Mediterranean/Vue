@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // data & methods & computed & watcher
+        // computed 和 watcher都能实现一个功能时，建议使用computed，因为代码更加简洁，另外computed的底层就是用watcher实现的
+
+        // 属性：可以在{{}}里使用属性直接计算
+        // 方法：必须定义在methods里面,且不要使用箭头函数定义，方法可以在{{}}里直接使用
+
+        const app = Vue.createApp({
+            data(){
+                return {
+                    message:'hello world',
+                    count:2,
+                    price:10
+                }
+            },
+
+            // 侦听器,可以监听属性的变化，来进行相应的操作
+            watch:{
+                // 该操作是异步操作，price发生变化时函数执行，同步操作不如computed简洁
+                price(current,prev){
+                    setTimeout(()=>{
+                        console.log('pricechange',current,prev);
+                    },3000)
+                }
+            },
+
+            // 计算属性：computed 和 method 都能实现相同的效果时，建议使用computed，computed内部会带有缓存的机制，在做页面渲染时会更高效
+
+            computed:{
+                // 当计算属性依赖的内容发生变化时，才会重新执行计算
+                total(){
+                    return Date.now() + this.count;
+                }
+            },
+            methods:{
+                formatString(string){
+                    return string.toUpperCase();
+                },
+                // 只要页面渲染，就会重新计算
+                getTotal(){
+                    // return this.count*this.price;
+                    return Date.now();
+                }
+            },
+            template:`<div>{{message}}  <br>  {{count*price}}   <br>   {{formatString(message)}}  <br>  {{getTotal()}}   <br>  {{total}}</div>`
+        })
+        const vm = app.mount('#root')
+    </script>
+</body>
+</html>

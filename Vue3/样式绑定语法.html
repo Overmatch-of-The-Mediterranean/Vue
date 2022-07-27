@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+        .red{
+            color: red;
+        }
+        .green {
+            color: green;
+        }
+        .orange{
+            color: orange
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // 1.普通class添加样式  class="red",类的样式提前写好
+        // 2.绑定数据来写样式,样式数据的定义有三种写法
+        // 3.组件引用写样式，当最外层是多层时，谁绑定:class="$attrs.class"谁颜色生效
+        // 4.行内样式，
+            // (1).普通写法：style="color:red;background:yellow"
+            // (2).绑定字符串或数组的写法。["color:white",{background:'grey'}]
+            // (2).绑定对象类型的数据，:style="lineObject"，该行内写法比较方便
+        const app = Vue.createApp({
+            data(){
+                // 样式数据的定义可以有这三种写法
+                return {
+                    classString:'red',
+                    classObject:{
+                        red:true,
+                        green:false
+                    },
+                    classArray:['red','orange',{brown:true}],
+
+                    // 行内
+                    lineObject:{
+                        color:['blue'],
+                        background:'yellow'
+                    },
+                    lineArray:["color:white",{background:'grey'}]
+                }
+            },
+            template:`
+            <div :class="classArray">
+                hello world
+                <demo class="green"/>
+            </div>
+            <div :style="lineArray">我是行内样式</div>
+            `
+            
+        });
+        // <demo class="green"/> 当组件内最外层是以一层标签时，里面的标签颜色生效，当为多层时，颜色不生效，需要这样写<div :class="$attrs.class">地中海强者1号</div>才生效
+        app.component('demo',{
+            template:`
+            <div>
+                <div :class="$attrs.class">地中海强者1号</div>
+                <div>地中海强者2号</div>
+            </div>
+            `
+        })
+
+        app.mount('#root');
+    </script>
+</body>
+</html>
