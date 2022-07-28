@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // 使用事件传参时，参数和事件对象都想传进去可以这样写   @click="handleClick(2,$event)"
+        // 绑定多个事件时，需要这样写   @click="handleClick(2,$event),handleClick1(4,$event)"
+        // 绑定事件也可以直接写表达式   @click="counter+=1"
+        // 获得键码通过event.keycode
+
+        // 事件修饰符：stop(停止冒泡),prevent,capture(将默认的冒泡模式改为捕获模式),self(只有点击的是自己时才执行事件),once(事件绑定只执行一次),passive(提高scroll绑定时的性能)
+        // 按键修饰符：enter,tab,delete,left,right....
+        // 鼠标修饰符：left,right,middle
+        // 精确修饰符：exact
+        const app = Vue.createApp({
+            methods:{
+                handleBtnClick(){
+                    console.log('handleBtnClick');
+                },
+                handleDivClick(){
+                    console.log('handleDivClick');
+                },
+                handleClick(num,event){
+                    console.log(num,event);
+                },
+                handleClick1(num,event){
+                    console.log(num,event);
+                },
+                exactLeft(){
+                    console.log('ctrl+left');
+                },
+                 middle(){
+                    console.log('middle');
+                },
+                enter(){
+                    console.log('enter');
+                }
+            },
+            template:`
+
+            <div @click.capture="handleDivClick">
+                capture
+                <button @click="handleBtnClick">按键</button>  
+            </div>
+
+            <div @click.self="handleDivClick">
+                self
+                <button @click="handleBtnClick">按键</button>  
+            </div>
+
+            <div @click="handleDivClick">
+                stop
+                <button @click.stop="handleBtnClick">按键</button>  
+            </div>
+
+            <div @click="handleClick(2,$event),handleClick1(4,$event)">
+                0
+                <button>button</button>
+            </div>
+
+            <input @keydown.enter="enter"/>
+
+            <div @click.middle="middle">
+                middle
+            </div>
+            
+            <div @click.ctrl.exact="exactLeft">
+                ctrl+mouseleft
+            </div>
+            `
+        })
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // v-if="xxx",是通过创建和删除DOM元素来控制显示和隐藏
+        // v-else-if="xxx"
+        // v-else
+        // v-show="xxx",是通过display控制DOM的显示与隐藏
+
+        // 如果对DOM元素的隐藏或显示操作频繁，使用v-show性能更好，不频繁两者都行
+
+
+        const app = Vue.createApp({
+            data(){
+                return {
+                    show:false,
+                    elseIf:false
+                }
+            },
+            template:`
+            <div v-if="show">hello world</div>
+            <div v-else-if="elseIf">elseif</div>
+            <div v-else>else</div>
+            <div v-show="show">show</div>
+            `
+        });
+        const vm=app.mount('#root');
+        
+    </script>
+</body>
+</html>

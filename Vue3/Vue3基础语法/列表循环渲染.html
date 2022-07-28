@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // 使用v-for循环时，要加上key，减少重复的渲染，提高性能
+        // 循环数组和对象时，写的参数不一样
+
+        // 循环数字1~10   <div v-for="item in 10">{{item}}</div>
+
+        const app = Vue.createApp({
+            data(){
+                return {
+                    listArray:['俺是','地中海','强者'],
+                    listObject:{
+                        one:'俺是1',
+                        two:'地中海1',
+                        three:'弱者'
+                    }
+                }
+            },
+            methods:{
+                handleBtnClick(){
+                    // 数组的变化
+                    // 1.通过数组的方法改变数组的元素，pop,shift,push,unshift
+                    // this.listArray.push('hello');
+
+
+                    // 2.直接替换数组
+                    // this.listArray=['hhh','zzz'];
+                    // this.listArray=['hhh','zzz'].filter(item=>item==='zzz'); // 过滤非'zzz'的元素
+
+                    // 3.直接修改数组的元素,只可以在新版本Vue中使用，老版本有些问题
+                    // this.listArray[1]='hello'
+
+
+                    // 对象的变化
+                    // 直接添加对象的内容
+                    // this.listObject.age=18;
+                    // this.listObject.sex='male';
+                }
+            },
+
+            // v-for的优先级比v-if高，如果写在同一个标签上，v-if不起作用，需要写在不同标签上
+
+            // template占位符，和react中的Fragment一样
+            template:`
+            <div>
+                <div v-for="(item,index) in listArray" :key="index">{{item}} -- {{index}}</div>
+            </div>
+            <button v-on:click="handleBtnClick">变化</button>
+
+            <div v-for="item in 10">{{item}}</div>
+
+            <template
+                v-for="(value,key,index) in listObject" 
+                :key="index"
+            >
+                <div v-if="key!=='three'">
+                    {{value}} -- {{key}} -- {{index}}
+                </div>
+            </template>
+
+            `
+        });
+        const vm=app.mount('#root');
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // 组件的优点：代码复用性高，维护成本低
+        // 全局组件：只要定义了，全局都可以使用，使用简单，但性能低，因为无论使不使用都会挂载到应用上，命名时建议仿照这种形式'hello-world'，即，小写字母，中间用-连接
+        // 局部组件：常以变量或常量形式定义，定义后，先注册后使用，只有注册才会挂载到应用上，使用复杂，但性能高，命名时，建议用驼峰且首字母大写
+        // 局部组件使用需要在被引用的组件中，做一个名字和组件之间的映射，不做映射，Vue底层会尝试帮你做
+        // 局部组件必须定义在引用它的组件之前
+
+        // 局部组件中引用全局组件，不用管前后定义的顺序
+        const SayHello = {
+            data(){
+                return {
+                    hello:'你好'
+                }
+            },
+            template:`
+            <hello-world/>
+            <div>{{hello}}</div>
+            `
+        }
+      
+        const Name = {
+            template:`<div>地中海强者</div>`
+        }
+        // 局部组件之间的引用也需要做映射，且要求定义的顺序
+        const Joke={
+            components:{
+                name:Name
+            },
+            template:'<name />'
+        }
+        
+        
+        const app = Vue.createApp({
+            components:{
+                sayHellow:SayHello,
+                'name-joke':Joke
+            },
+            template:`
+            <sayHellow />
+            <hello-world-father />
+            <name-joke />
+            `
+        });
+
+
+        const Age =  {
+            template:`<div>18</div>`
+        }
+        
+        // 全局组件之间引用可以不管定义顺序，也不需要映射
+        // 全局组件引用局部组件,局部组件必须定义在引用的它的全局组件之前
+        app.component('hello-world-father',{
+            components:{
+                'name-parent':Name,
+                age:Age
+            },
+            template:`
+            <age/>
+            <name-parent/>
+            <hello-world/>
+            `
+        })
+
+
+        
+
+
+        app.component('hello-world',{
+            data(){
+                return {
+                    message:'hello world'
+                }
+            },
+            template:'<div>{{message}}</div>'
+        })
+        
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>

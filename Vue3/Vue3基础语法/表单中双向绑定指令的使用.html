@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // input  textarea  checkbox  radio  select
+        // 表单中双向绑定指令：v-model
+        // select中的value是打开页面时，选择value相同的option展示
+        // 多选加上multiple
+
+        // checkbox中可以用 true-value="hello"  false-value="world" 替换选中和不选中时显示的数据
+        // input中的修饰符：lazy(失去聚焦后数据才改变)，number(转化为数字后再存)，trim(去除两端的空格，中间的空格不去掉)
+
+        // checkbox中绑定的数据只能是布尔型或者是数组
+        const app = Vue.createApp({
+            data(){
+                return {
+                    message:111,
+                    textarea:222,
+                    boolean:true,
+                    boolean1:'hello',
+                    judge:[],
+                    single:'',
+                    storage:[],
+                    options:[
+                        {
+                            text:'A',
+                            value:{value:'A'}
+                        },
+                           {
+                            text:'B',
+                            value:{value:'B'}
+                        },
+                           {
+                            text:'C',
+                            value:{value:'C'}
+                        },
+                    ],
+                    message1:'',
+                    message2:111
+                }
+            },
+            template:`
+            <div>
+                {{message}}
+                <input v-model="message"/>
+                {{textarea}}
+                <textarea v-model="textarea"/>
+
+
+                <br>
+                <br>
+                <br>
+
+                checkbox中绑定的数据只能是布尔型或者是数组
+                {{boolean}}
+                男<input type="checkbox" v-model="boolean" value="男"/>
+                女<input type="checkbox" v-model="boolean" value="女"/>
+
+
+                <br>
+                <br>
+                <br>
+
+
+                {{judge}}
+                男<input type="checkbox" v-model="judge" value="男"/>
+                女<input type="checkbox" v-model="judge" value="女"/>
+                {{single}}
+                帅<input type="radio" v-model="single" value="帅"/>
+                很帅<input type="radio" v-model="single" value="很帅"/>
+
+
+
+                <br>
+                <br>
+                <br>
+                
+
+
+
+                {{message1}}
+                <select v-model="message1">
+                    <option value=''>请选择内容</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                </select>
+
+            
+
+                <br>
+                <br>
+                <br>
+
+                循环添加option
+                {{storage}}
+                <select  v-model="storage" multiple>
+                    <option v-for="item in options" :value="item.value">{{item.text}}</option>
+                </select>
+            </div>
+
+
+
+            <br>
+            <br>
+            <br>
+
+            true-value="hello"  false-value="world"
+            {{boolean1}}
+            <input type="checkbox" v-model="boolean1" true-value="hello" false-value="world" />
+
+
+            <br>
+            <br>
+            <br>
+
+            修饰符
+            {{typeof message2}}
+            {{message2}}
+            <input v-model.number="message2" type="number"/>
+            `
+        });
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>

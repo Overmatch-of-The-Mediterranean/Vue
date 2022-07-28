@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // 1.父组件向子组件传值
+        // 父组件通过属性(属性名可以自己起，需要符合JS命名规范)传值，子组件通过props接收，不校验是数组，校验是对象
+        // 父组件静态传值<test content="xxx" />，传递的值的类型只能是字符串
+        // 父组件动态传值<test :content="num" />，传递的值的类型可以是基本类型值，也可以是引用类型值
+
+        // 2传值校验
+        // 可以校验的类型：Number,String,Boolean,Array,Object,Function,Symbol
+        // required:true  则表示必须传递东西
+        // validator校验是否符合更多的条件，为函数形式
+        // default默认值，有下面代码的两种写法
+        const app = Vue.createApp({
+            data(){
+                return {
+                    num:666
+                }
+            },
+            template:`
+            <div>
+                <test :content_1="num" />
+            </div>
+            `
+        });
+        app.component('test',{
+            props:{
+                // content:Number,
+                content_1:{
+                    type:Number,
+                    required:true,
+                    validator:function(value){
+                        return value<1000
+                    },
+                    // default:123
+                    default:function(){
+                        return 123
+                    }
+                }
+            },
+            template:`<div>{{content_1}}</div>`
+        })
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>
