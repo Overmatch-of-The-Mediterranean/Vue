@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // v-bind="params"
+        // :content="params.content"    :a="params.a"
+        // 父组件向子组件传属性时，使用content-abc这种命名，子组件接收，使用contentAbc命名
+        // 单行数据流：子组件可以使用父组件传递过来的数据，但是不能修改父组件传递过来的数据
+        const app = Vue.createApp({
+            data(){
+                return {
+                    params:{
+                        a:111,
+                        b:222,
+                        c:333,
+                        content:'content'
+                    },
+                    num:1
+                }
+            },
+            template:`
+            <div>
+                <test v-bind="params" :content-abc="params.content"/>
+                <counter :count="num"/>
+            </div>
+            `
+        });
+
+        app.component('test',{
+            props:['a','b','c','contentAbc'],
+            template:'<div>{{a}}--{{b}}--{{c}}--{{contentAbc}}</div>'
+        })
+
+        app.component('counter',{
+            props:['count'],
+            data(){
+                return {
+                    // this.count,指的是props:['count']中的
+                    myCounter:this.count
+                }
+            },
+            template:'<div @click="myCounter+=1">{{myCounter}}</div>'
+        })
+
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // const app = Vue.createApp({
+        //     data(){
+        //         return {
+        //             count:1
+        //         }
+        //     },
+        //     methods:{
+        //         // 可以接收子组件向外触发事件所传递的参数,形参名字可以随便取
+        //         // handleAdd(param1,param2){
+        //         //     this.count+=param2
+        //         // }
+                
+        //         // 接收子组件计算好后的count值
+        //         handleAdd(param){
+        //             this.count=param
+        //         }
+        //     },
+        //     template:`
+        //     <div>
+        //         <counter :count="count" @add="handleAdd"/>
+        //     </div>
+        //     `
+        // });
+
+        // app.component('counter',{
+        //     props:['count'],
+        //     // emits可以用来统计子组件向外触发的事件，维护性更高
+        //     // emits有数组和对象两种形式,对象形式可以校验传递的参数，满足条件可以向外传递，否则不可以传递
+        //     // emits:['add'],
+        //     emits:{
+        //         add:count=>{
+        //             return count>0;
+        //         }
+        //     },
+        //     methods:{
+        //         handleClick(){
+        //             // 子组件向外触发事件可以传递参数
+        //             // this.$emit('add',2,3)
+        //             // 也可以将新的count值算出来，传递过去赋值
+        //             this.$emit('add',this.count+3)
+
+        //              如果自定义名字写成这种形式，父组件中要写成这种形式<counter :count="count" @add-one="handleAdd"/>
+        //             this.$emit('addOne',this.count+3)
+        //         }
+        //     },
+        //     template:'<div @click="handleClick">{{count}}</div>'
+        // });
+
+
+
+        // 更简单的写法
+
+        // 默认的写法：
+        // 使用<counter v-model="count"/>这种写法时，子组件用props接收参数的名字必须是modelValue
+        // 向外触发的事件名字也必须是update:modelValue
+
+        // 自定义的写法：
+        // 向外触发的事件名字可以通过<counter v-model:xxx="count"/>修改,此时向外触发的事件名字必须是update:xxx
+        const app = Vue.createApp({
+            data(){
+                return {
+                    count:1
+                }
+            },
+            methods:{
+                handleAdd(param){
+                    this.count=param
+                }
+            },
+            template:`
+            <div>
+                <counter v-model="count"/>
+            </div>
+            `
+        });
+
+        app.component('counter',{
+            props:['modelValue'],
+            methods:{
+                handleClick(){
+                    this.$emit('update:modelValue',this.modelValue+3)
+                }
+            },
+            template:'<div @click="handleClick">{{modelValue}}</div>'
+        });
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>

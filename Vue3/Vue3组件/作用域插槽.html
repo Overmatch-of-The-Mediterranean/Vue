@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // 作用域插槽
+        // 当子组件渲染的内容要由父组件决定的时候，作用域插槽可以使父组件的到子组件要展示的数据，并且可以使用
+        // 整个流程：父组件调用子组件，并将slot传递给子组件，子组件循环展示数据，每次循环调用父组件传递过来的slot，并将子组件的数据传递给父组件，父组件接收并使用
+         const app = Vue.createApp({
+            data(){
+                return {
+                    text:'提交'
+                }
+            },
+            template:`
+            <list v-slot="{item}">
+                <div>{{item}}</div>    
+            </list>
+            `
+        });
+
+
+        app.component('list',{
+            data(){
+                return {
+                    list:[1,2,3]
+                }
+            },
+            // :item="item"将子组件的数据传递给父组件，父组件用解构赋值方式接收(v-slot="{item}")，或者对象形式接收(v-slot="slotProps")
+            template:`
+            <div>
+                <slot v-for="item in list" :item="item"></slot>
+            </div>
+            `
+        })
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>

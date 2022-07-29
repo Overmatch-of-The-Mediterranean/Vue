@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // Non-Props属性，当子组件不使用props接收父组件传递过来的属性时，父组件传递的属性应当怎么使用
+        // 1.当子组件最外层只有一对标签时，传递的属性自动放在最外层标签上
+        // 2.当子组件最外层有多对标签时，传递的属性不放在标签上。
+        //      这种情况下某个标签想使用传递的属性：
+        //          (1).可以使用v-bind="$attrs"获得全部没有使用props接收的属性
+        //          (2).使用:msg="$attrs.msg"获得指定的属性(没有使用props接收)
+
+        // inheritAttrs：是否继承Non-Props属性，只对最外层且是一对标签起作用
+        const app = Vue.createApp({
+            template:`
+            <div>
+                <test msg="hello" msg1="world"/>
+            </div>
+            `
+        });
+
+        app.component('test',{
+            inheritAttrs:true,
+            // 也可以在函数上使用Non-Props属性
+            mounted(){
+                console.log(this.$attrs.msg);
+            },
+            template:`
+            <div>
+                <div :msg="$attrs.msg">111</div>
+                <div v-bind="$attrs">222</div>
+                <div>333</div>
+            </div>
+            `
+        })
+
+
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>

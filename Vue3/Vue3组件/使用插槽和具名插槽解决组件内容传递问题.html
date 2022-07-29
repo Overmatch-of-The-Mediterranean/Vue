@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // slot 插槽,使标签或DOM的传递非常方便，props非常麻烦
+        // 插槽的使用：使用双标签形式引用子组件，要传给子组件的东西可以写在双标签里面
+        // slot标签无法绑定事件，可在外包裹一层能绑定事件的标签
+        // 如果什么都不传，slot标签可以设置默认值，并显示
+        // 父模板里调用的数据，使用的都是父模板里的数据
+        // 子模板里调用的数据，使用的都是子模板里的数据
+        // const app = Vue.createApp({
+        //     data(){
+        //         return {
+        //             text:'提交'
+        //         }
+        //     },
+        //     template:`
+        //     <myform>
+        //         <div>{{text}}</div>
+        //     </myform>
+        //     <myform>
+        //         <button>{{text}}</button>
+        //     </myform>
+        //     <myform>
+        //     </myform>
+        //     `
+        // });
+
+
+        // app.component('myform',{
+        //     methods:{
+        //         handleClick(){
+        //             alert(666);
+        //         }
+        //     },
+        //     template:`
+        //     <input/>
+        //     <span @click="handleClick">
+        //         <slot>默认值</slot>
+        //     </span>
+        //     `
+        // })
+        
+
+
+        // 具名插槽：将一个整体的slot拆成多个小的slot
+            const app = Vue.createApp({
+            data(){
+                return {
+                    text:'提交'
+                }
+            },
+            // Template compilation error: v-slot can only be used on components or <template> tags.
+            // v-slot:header可以简写为#header
+            template:`
+            <div>
+                <layout>
+                    <template #header>
+                        <div>header</div>
+                    </template>
+                    <template #footer>
+                        <div>footer</div>
+                    </template>
+                </layout>
+            </div>
+            `
+        });
+
+
+        app.component('layout',{
+            methods:{
+                handleClick(){
+                    alert(666);
+                }
+            },
+            // slot具体使用那个传递过来的值，由设置的name对应v-slot
+            template:`
+            <slot name="header"></slot>
+            <div>content</div>
+            <slot name="footer"></slot>
+            `
+        })
+        const vm = app.mount('#root');
+    </script>
+    
+</body>
+</html>
