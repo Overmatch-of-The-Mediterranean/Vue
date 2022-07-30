@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // v-once表示只会渲染一次，不会随着数据的变化而变化  template:`<div @click="handleClick" v-once>{{count}}</div>`
+        // ref可以获取到Dom节点/子组件,不能过多使用，维护成本高
+        // provide/inject 帮助组件做多级传值的语法，但是一次性的，不能响应数据变化。
+    
+        const app = Vue.createApp({
+            data(){
+                return {
+                    count:1,
+                    count2:2
+                }
+            },
+
+            // 使用data中的数据
+            provide() {
+                return {
+                    count1:this.count2
+                }
+            },
+
+            // 自定义传值
+            // provide:{
+            //     count1:9
+            // },
+
+
+            mounted(){
+                // console.log(this.$refs.count.innerHTML='hello');
+                // console.log(this.$refs.item);
+                // this.$refs.item.mounted();
+            },
+            methods:{
+                handleClick(){
+                    this.count+=1
+                }
+            },
+            template:`
+            <div @click="handleClick" ref="count">{{count}}</div>
+            <child />
+            
+            `
+        });
+
+        
+        // ref组件
+        // app.component('item',{
+        //     methods:{
+        //         mounted(){
+        //             alert('666')
+        //         }
+        //     },
+        //     template:'<div>哈哈哈</div>'
+        // });
+
+        // provide/inject
+        app.component('child',{
+            template:'<child-chlid />'
+        });
+        app.component('child-chlid',{
+            inject:['count1'],
+            template:'<div>{{count1}}</div>'
+        });
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>
