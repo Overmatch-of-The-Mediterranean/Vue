@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+         /* 过渡 */
+
+        /* .v-enter-from {
+            opacity: 0;
+        }
+
+        .v-enter-active {
+            transition: opacity 3s ease;
+        }
+
+        .v-enter-to {
+            opacity: 1;
+        }
+
+        .v-leave-active {
+            transition: opacity 3s ease;
+        }
+
+        .v-leave-to {
+            opacity: 0;
+        } */
+
+
+
+        /* 动画 */
+        @keyframes shake {
+            0% {
+                transform: translateX(-100px);
+            }
+            50% {
+                transform: translateX(-50px);
+            }
+            100% {
+                transform: translateX(50px);
+            }
+        }
+
+        .v-enter-from {
+            color: red;
+        }
+
+        /* 动画和过渡可以配合使用 */
+        .v-enter-active {
+            animation: shake 10s;
+            transition: all 3s ease;
+        }
+
+        .v-leave-active {
+            animation: shake 10s;
+            transition: all 3s ease;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        
+        // type="xxx"：当过渡和动画时间不一致时，可以设置以xxx的时间为准 <transition type="transition">
+        // :duration="1000"：过渡和动画只进行1s
+        // :duration="{enter:1000,leave:3000}"：分别设置入场和出场分别执行的时间
+        // 使用JS实现动画
+        // 1.  :css="false",取消css实现的动画和过渡
+        // 2.JS有一些钩子可以调用
+        //         @before-enter接收el   @enter接收el和done   @after-enter接收el
+        //         @before-leave接收el   @leave接收el和done   @leave-after接收el
+        const app = Vue.createApp({
+            data(){
+                return {
+                    show:true
+                }
+            },
+            methods:{
+                handleClick(){
+                    this.show=!this.show
+                },
+
+                handleBeforeEnter(el){
+                    el.style.color="red"
+                },
+                handleEnter(el,done){
+                    const timer = setInterval(()=>{
+                        el.style.color = el.style.color==='red' ? 'green':'red'
+                    },1000);
+                    setTimeout(()=>{
+                        clearInterval(timer);
+
+                        // 用来告诉handleAfterEnter 入场已经结束，handleAfterEnter的语句才会执行
+                        done();
+                    },3000)
+                },
+                handleAfterEnter(el){
+                    alert(666)
+                }
+            },
+            template:`
+            <transition 
+                :css="false"
+                @before-enter="handleBeforeEnter"
+                @enter="handleEnter"
+                @after-enter="handleAfterEnter"
+            >
+                <div v-if="show">Hello World</div>
+            </transition>
+            <button @click="handleClick">变化</button>
+            `
+        });
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        
+        const app = Vue.createApp({
+            data(){
+                return {
+                    show:true
+                }
+            },
+            methods:{
+                handleClick(){
+                    this.show = !this.show
+                }
+            },
+            // 自定义transition中class的名字，可以很好的引用第三方动画库 animate.css
+            // enter-from-class   enter-to-class   leave....
+            template:`
+            <transition 
+                enter-active-class="animate__animated animate__flash"
+                leave-active-class="animate__animated animate__flash"
+            >
+                <div v-if="show">Hello World</div>
+            </transition>
+            <button @click="handleClick">变化</button>
+            `
+        });
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>

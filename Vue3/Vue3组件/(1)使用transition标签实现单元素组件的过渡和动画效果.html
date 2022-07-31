@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+        /* 过渡 */
+
+        /* .v-enter-from {
+            opacity: 0;
+        }
+
+        .v-enter-active {
+            transition: opacity 3s ease;
+        }
+
+        .v-enter-to {
+            opacity: 1;
+        }
+
+        .v-leave-active {
+            transition: opacity 3s ease;
+        }
+
+        .v-leave-to {
+            opacity: 0;
+        } */
+
+
+
+        /* 动画 */
+        @keyframes shake {
+            0% {
+                transform: translateX(-100px);
+            }
+            50% {
+                transform: translateX(-50px);
+            }
+            100% {
+                transform: translateX(50px);
+            }
+        }
+
+        .hello-enter-from {
+            color: red;
+        }
+
+        /* 动画和过渡可以配合使用 */
+        .hello-enter-active {
+            animation: shake 3s;
+            transition: all 3s ease;
+        }
+
+        .hello-leave-active {
+            animation: shake 3s;
+            transition: all 3s ease;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // 给transtion加name="hello" .v-leave-active要变成.hello-leave-active
+        const app = Vue.createApp({
+            data(){
+                return {
+                    show:true
+                }
+            },
+            methods:{
+                handleClick(){
+                    this.show = !this.show
+                }
+            },
+            template:`
+            <transition name="hello">
+                <div v-if="show">Hello World</div>
+            </transition>
+            <button @click="handleClick">变化</button>
+            `
+        });
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>

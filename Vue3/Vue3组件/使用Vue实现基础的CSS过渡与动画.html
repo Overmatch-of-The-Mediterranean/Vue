@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+
+        /* class实现过渡 */
+        .red {
+            background-color: red;
+        }
+        .green {
+            background-color: green;
+        }
+        .transition {
+            transition: background-color 3s ease;
+        }
+
+
+        /* 动画 */
+        /* @keyframes  leftToRight{
+            0% {
+                transform: translateX(-100px);
+            }
+            50% {
+                transform: translateX(-50px);
+            }
+            0% {
+                transform: translateX(0);
+            }
+        }
+        .animation {
+            animation: leftToRight 3s;
+        } */
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // 使用class实现过渡
+        // const app = Vue.createApp({
+        //     data(){
+        //         return {
+        //             animate:{
+        //                 transition:true,
+        //                 red:false,
+        //                 green:true
+        //             }
+        //         }
+        //     },
+        //     methods:{
+        //         handleClick(){
+        //             this.animate.red = !this.animate.red;
+        //             this.animate.green = !this.animate.green;
+        //         }
+        //     },
+        //     template:`
+        //     <div :class="animate">hello world</div>
+        //     <button @click="handleClick">变色</button>
+        //     `
+        // });
+
+
+
+        // 动画
+        // const app = Vue.createApp({
+        //     data(){
+        //         return {
+        //             animate:{
+        //                 animation:false
+        //             }
+        //         }
+        //     },
+        //     methods:{
+        //         handleClick(){
+        //             this.animate.animation = !this.animate.animation;
+        //         }
+        //     },
+        //     template:`
+        //     <div :class="animate">hello world</div>
+        //     <button @click="handleClick">变色</button>
+        //     `
+        // });
+
+
+
+        // 行内
+        const app = Vue.createApp({
+            data(){
+                return {
+                    styleObj:{
+                        background:'green'
+                    }
+                }
+            },
+            methods:{
+                handleClick(){
+                    this.styleObj.background = this.styleObj.background==='green' ? 'red':'green';
+                    // if(this.styleObj.background==='green') {
+                    //     this.styleObj.background='red';
+                    // } else{
+                    //     this.styleObj.background='green';
+                    // }
+                }
+            },
+            template:`
+            <div class="transition"  :style="styleObj">hello world</div>
+            <button @click="handleClick">变色</button>
+            `
+        });
+        app.mount('#root');
+    </script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+         /* 过渡 */
+
+        .v-enter-from,
+        .v-leave-to {
+            opacity: 0;
+        }
+
+        .v-enter-active,
+        .v-leave-active {
+            transition: opacity 3s ease;
+        }
+
+        .v-enter-to,
+        .v-leave-from {
+            opacity: 1;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        
+        const componentA = {
+            template:'<div>Hello World</div>'
+        };
+        const componentB = {
+            template:'<div>goodBye</div>'
+        }
+
+        const app = Vue.createApp({
+            data(){
+                return {
+                    show:true,
+                    component:'component-a'
+                }
+            },
+            methods:{
+                handleClick(){
+                    this.show=!this.show
+                    this.component = this.component==='component-a' ? 'component-b':'component-a'
+                }
+            },
+            // mode：设置出进的先后顺序，默认是一起出进，mode="out-in"是先出后进，mode="in-out"是先进后出
+            // appear：刚进来也有特效
+
+            // 多个单元素的切换
+            // template:`
+            // <transition mode="out-in" appear>
+            //     <div v-if="show">Hello World</div>
+            //     <div v-else="show">goodBye</div>
+            // </transition>
+            // <button @click="handleClick">变化</button>
+            // `
+
+
+            // 多个单组件的切换
+        //     components:{
+        //         'component-a':componentA,
+        //         'component-b':componentB
+        //     },
+        //     template:`
+        //     <transition mode="out-in" appear>
+        //         <component-a v-if="show"/>
+        //         <component-b v-else="show"/>
+        //     </transition>
+        //     <button @click="handleClick">变化</button>
+        //     `
+        // });
+
+
+        // 多个单组件的动态切换
+        components:{
+                'component-a':componentA,
+                'component-b':componentB
+            },
+            template:`
+            <transition mode="out-in" appear>
+                <component :is="component"/>
+            </transition>
+            <button @click="handleClick">变化</button>
+            `
+        });
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>

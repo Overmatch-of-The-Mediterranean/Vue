@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // let timer;
+        let lock=true;
+        const app = Vue.createApp({
+            data(){
+                return {
+                    targetNumber:10,
+                    animateNum:1
+                }
+            },
+            methods:{
+                // 小bug连续点击两下：会超过10，因为会启动两个定时器，而clearInterval只会清楚第一个定时器，不会清除第二个,所以需要设表先关
+                // 使用函数节流
+                handleClick(){
+                    if (this.animateNum < this.targetNumber) {
+                        // clearInterval(timer)
+                        if(!lock) return;
+                        lock = false;
+                        timer = setInterval(()=>{
+                            this.animateNum+=1;
+                            if (this.animateNum===this.targetNumber) {
+                                clearInterval(timer);
+                            }
+                        },1000);
+                        setTimeout(()=>{
+                            lock = true;
+                        },10000)
+                    }
+                    else {
+                        this.animateNum = 1;
+                    }
+                }
+            },
+            template:`
+            <div>{{animateNum}}</div>
+            <button @click="handleClick">变化</button>
+            `
+        });
+        const vm = app.mount('#root');
+    </script>
+    
+</body>
+</html>
