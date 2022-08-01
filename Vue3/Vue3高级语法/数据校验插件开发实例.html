@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        const app = Vue.createApp({
+            data(){
+                return {
+                    age:18,
+                    name:'嗨嗨嗨'
+                }
+            },
+
+            // 这里可以把age看作age:18，后面的值看作检验的附加条件
+            rules:{
+                age:{
+                    validate:age => age>=18,
+                    message:'快滚，没成年的小屁孩'
+                },
+                name:{
+                    validate:name => name.length<=4,
+                    message:'什么牛马名字'
+                }
+            },
+            template:`
+            <div>name={{name}}--age={{age}}</div>
+            `
+        });
+        
+        const validatorPlugin = (app,options)=>{
+            app.mixin({
+                created(){
+                    for(let key in this.$options.rules) {
+                        const item = this.$options.rules[key];
+                        this.$watch(key,value=>{
+                            const result = item.validate(value);
+                            if(!result) console.log(item.message);
+                        })
+                    }
+                }
+            })
+        };
+        app.use(validatorPlugin);
+        
+
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>

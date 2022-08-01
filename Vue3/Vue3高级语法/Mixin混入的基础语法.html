@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // 局部mixin被使用都需要用mixins:[]引入，全局mixin自动嵌入到所有组件中
+        // 组件中的data和methods的优先级高于mixin中的data和methods
+        // mixin中的生命周期函数优先级高于组件中的生命周期函数
+        // 默认情况下，组件中的自定义属性优先级高于mixin中的自定义属性，但可以使用app.config.optionMergeStrategies.xxx修改优先级
+        // 组件中的内容经过vue处理之后都会放在options里面
+        // mixin尽量少用，维护性不高，vue3中有替代它的方法
+        const Mixin = {
+            data(){
+                return{
+                    number:2
+                }
+            },
+            age:18,
+            methods:{
+                handleClick(){
+                    console.log('Mixin method');
+                }
+            },
+            created(){
+                console.log('mixin created');
+            }
+        }
+
+        const app = Vue.createApp({
+            data(){
+                return {
+                    number:1
+                }
+            },
+            
+            mixins:[Mixin],
+            age:20,
+            methods:{
+                handleClick(){
+                    console.log('method');
+                }
+            },
+            created(){
+                console.log('created');
+            },
+            template:`
+            <div>{{number}}--{{this.$options.age}}--{{count}}</div>
+            <button @click="handleClick">按钮</button>
+            `
+        });
+
+        // 全局mixin
+        app.mixin({
+            data(){
+                return {
+                    count:222
+                }
+            }
+
+        })
+        app.config.optionMergeStrategies.age = (mixinVal,appValue)=>{
+            return mixinVal || appValue
+        }
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>

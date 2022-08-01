@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+        .position {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 600px;
+            transform: translate(-50%,-50%);
+            background-color: green;
+        }
+
+        .mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-color: #000;
+            opacity: 0.5;
+            color: #fff;
+            font-size: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <div id="hello"></div>
+    <script>
+        // teleport：是个标签，可以将组件中的一些Dom元素放在其他地方显示，通过它的to属性实现，可以写标签，也可以写选择器。
+        // teleport其他的逻辑，与写普通标签差不多,如，作用域
+        const app = Vue.createApp({
+            data(){
+                return {
+                    show:false,
+                    messgae:'hello',
+                }
+            },
+            methods:{
+                handleClick(){
+                    this.show = !this.show;
+                }
+            },
+            template:`
+            <div class="position">
+                <teleport to="#hello">
+                    <div class="mask" v-show="show">{{messgae}}</div>
+                </teleport>
+                <button @click="handleClick">按钮</button>
+            </div>
+            
+            `
+        });
+
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>

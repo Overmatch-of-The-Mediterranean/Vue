@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // plugin插件：也是把通用性的功能封装起来
+        // 插件也可以写成箭头函数形式
+        /*const validatorPlugin = (app,options)=>{
+            app.mixin({
+                created(){
+                  ...
+                  ...
+                        })
+                    }
+                }
+            })
+        };*/
+        const myPlugin = {
+            install(app,options){
+                console.log(app,options);
+                app.provide('name','地中海强者')
+                app.directive('focus',{
+                    mounted(el){
+                        el.focus();
+                    }
+                });
+                // 因为是全局的mixin，每个组件都会嵌入，所以会输出两次
+                app.mixin({
+                    mounted(){
+                        console.log(666);
+                    }
+                });
+                // 对vue的全局属性进行一些扩展
+                // $代表了私有的扩展，对vue底层的拓展，代表vue底层私有的东西,使用时直接this.$xxx
+                app.config.globalProperties.$sayHello = 'hello world'
+            }
+        }
+        const app = Vue.createApp({
+
+            
+            template:`
+                <my-title  />
+                `
+          
+        });
+        app.component('my-title',{
+            inject:['name'],
+            mounted(){
+                console.log(this.$sayHello);
+            },
+            template:'<div>{{name}} <input v-focus/></div>'
+        });
+        app.use(myPlugin,{name:'地中海强者'});
+
+
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>

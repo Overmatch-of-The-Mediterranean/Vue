@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+        .position {
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        const app = Vue.createApp({
+            data(){
+                return {
+                    distance:100
+                }
+            },
+            template:'<input class="position" v-pos:left="distance"/>'
+        });
+
+
+        // app.directive('pos',{
+        //     mounted(el,binding){
+        //         console.log(binding);
+        //         el.style[binding.arg] = binding.value + 'px';
+        //     },
+        //     updated(el,binding){
+        //         el.style[binding.arg] = binding.value + 'px';
+        //     }
+        // });
+
+
+        // 当只有mounted和updated这两个生命周期函数时，等价于下面的
+
+         app.directive('pos',(el,binding)=>{
+            console.log(binding);
+            el.style[binding.arg] = binding.value + 'px'
+        })
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>

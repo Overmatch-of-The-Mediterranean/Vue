@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // template -> render -> 虚拟Dom(本质是JS对象) -> 真实Dom -> 展示到页面上
+        // 虚拟Dom ：让性能更好，跨平台能力
+        /* {
+                 tagname:'h1',
+                 text:'hello',
+                 attributes:{}
+             },*/
+        const app = Vue.createApp({
+            data(){
+                return {
+                    level:2
+                }
+            },
+            
+            template:`
+                <my-title :level="level">
+                    我是h2
+                </my-title>
+                `
+          
+        });
+        app.component('my-title',{
+            props:['level'],
+            render(){
+                const {h} = Vue;
+                // 通过this.$slots.xxx，引用想用插槽
+                // h(标签，属性，内容)，内容可以使用数组来实现嵌套的虚拟Dom
+                return h('h'+this.level,{},[this.$slots.default(),h('h4',{},'我是h4')])
+            }
+        })
+
+
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>
