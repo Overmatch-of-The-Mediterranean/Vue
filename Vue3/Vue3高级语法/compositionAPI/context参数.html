@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        const app = Vue.createApp({
+            methods:{
+                handle(){
+                    alert(666)
+                }
+            },
+            template:'<child @change="handle" content="content">default</child>',
+            
+        });
+
+        app.component('child',{
+            template:'<div @click="handleClick">点我</div>',
+            setup(props,context){
+                const {h} = Vue
+                const {attrs,slots,emit} = context;
+                console.log(attrs.content);
+                console.log();
+                // attrs替代this.$attrs，attrs用来接收Non-props属性
+                // slots替代this.$slots
+                // emit 替代this.$emit，emit向外触发事件
+                return ()=>h('div',{},slots.default());
+                
+                // return {
+                    
+                //     handleClick(){
+                //         emit('change');
+                //     }
+                // }
+            }
+        })
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>

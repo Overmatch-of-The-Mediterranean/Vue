@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        const app = Vue.createApp({
+            methods:{
+                test(){
+                    console.log(this.$options.setup());
+                }
+            },
+            mounted(){
+                this.test();
+            },
+            template:'<div @click="handleClick">{{name}}</div>',
+
+            // 在实例被创造之前执行
+            // setup不能调用实例的方法，不能使用this，实例中的方法可以调用setup
+            setup(props,context){
+                return {
+                    name:'嗨嗨嗨',
+                    handleClick(){
+                        console.log(666);
+                    }
+                }
+            }
+        });
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>

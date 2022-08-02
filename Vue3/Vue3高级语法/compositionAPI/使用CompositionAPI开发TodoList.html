@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        const inputRelativeEffect = ()=>{
+            const {ref} = Vue;
+            const inputValue = ref('');
+            const handleInputValueChange = (e)=>{
+                inputValue.value = e.target.value;
+            };
+            return {inputValue,handleInputValueChange}
+        };
+        const listRelativeEffect=()=>{
+            const {reactive} = Vue;
+            const list = reactive([]);
+            const addItemToList = (param)=>{
+                list.push(param);
+            };
+            return {list,addItemToList}
+        }
+
+        const app = Vue.createApp({
+            setup(){
+                const {inputValue,handleInputValueChange} = inputRelativeEffect();
+                const {list,addItemToList} = listRelativeEffect();
+                const deleteItem = (index)=>{
+                list.splice(index,1)
+            }
+                return {
+                    inputValue,handleInputValueChange,
+                    list,addItemToList,
+                    deleteItem
+                }
+                },
+            template:`
+                <div>
+                    <input :value="inputValue" @input="handleInputValueChange"/>
+                    <button @click="() => addItemToList(inputValue)">提交</button>
+                    <ul>
+                        <li v-for="(item,index) in list" :key="index" @click="deleteItem(index)">{{item}}</li>
+                    </ul>
+                </div>
+            `
+        });
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>

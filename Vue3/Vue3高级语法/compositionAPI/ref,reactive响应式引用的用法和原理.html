@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // ref,reactive,readonly,toRefs,toRef
+
+        const app = Vue.createApp({
+
+            // vue做模板处理时，会做一个转化，如果知道name是ref返回的一个响应式引用，会自动在底层调用name.value
+            // template:'<div>{{name}}</div>',
+
+            // ref 处理基础类型的数据
+            // 'lee'调用ref，通过proxy把'lee'变成proxy({value:'lee'})这样的一个响应式引用
+            // 底层就是对lee做了proxy的封装，proxy语法在JS原生里面只支持传入对象。调用ref，底层会把lee变成对象
+            // setup(props,context){
+            //    const {ref} = Vue;
+            //    let name = ref('lee');
+            //    setTimeout(()=>{
+            //     name.value = 'dell';
+            //    },2000);
+            //    return {name}
+            // }
+
+            
+            // reactive
+            // 对象
+            // template:'<div>{{nameObj.name}}</div>',
+            // // reactive 处理非基本类型的数据
+            // // {name:'lee'}调用reactive通过proxy变成proxy({value:'lee'})这样的一个响应式引用
+            // setup(props,context){
+            //    const {reactive} = Vue;
+            //    let nameObj = reactive({name:'lee'});
+            //    setTimeout(()=>{
+            //     nameObj.name = 'dell';
+            //    },2000);
+            //    return {nameObj}
+            // }
+
+
+
+            // 数组
+        //     template:'<div>{{nameObj[0]}}</div>',
+        //     setup(props,context){
+        //        const {reactive} = Vue;
+        //        let nameObj = reactive([123]);
+        //        setTimeout(()=>{
+        //         nameObj[0] = 456;
+        //        },2000);
+        //        return {nameObj}
+        //     }
+        // });
+
+
+        // readonly 变为只读
+        // template:'<div>{{nameObj[0]}}</div>',
+        //     setup(props,context){
+        //        const {reactive,readonly} = Vue;
+        //        let nameObj = reactive([123]);
+        //        const nameObjOnly = readonly(nameObj)
+        //        setTimeout(()=>{
+        //         nameObj[0]= 456;
+        //         nameObjOnly[0] = 456;
+        //        },2000);
+        //        return {nameObj,nameObjOnly}
+        //     }
+        // });
+
+
+        // toRefs
+        //     template:'<div>{{name}}</div>',
+
+        //     setup(props,context){
+        //        const {reactive,toRefs} = Vue;
+        //        let nameObj = reactive({name:'lee'});
+        //     // nameObj是响应式数据，nameObj中的属性不是响应式数据，可以通过torefs将nameObj中的属性变为响应式数据
+        //     // toRefs  将proxy({value:'lee',age:18}) 变为{name:proxy({value:'lee'}),age:proxy({value:18})}
+        //        const {name} = toRefs(nameObj);
+        //        setTimeout(()=>{
+        //         nameObj.name = 'dell';
+        //        },2000);
+        //        return {name}
+        //     }
+        // });
+        
+
+
+        // toRef
+         template:'<div>{{age}}</div>',
+        setup(){
+            const {reactive,toRef} = Vue;
+            const data = reactive({name:'dell'});
+
+            // toRef不管data里面有没有age属性，都会将其变成响应式数据，没有则给一个空数据，而toRefs，只会将里面有的属性变为响应式数据，没有则为undefined，且不可响应
+            // 尽量用已经写的数据，toRef少用，可以写成 data = reactive({name:'dell',age:''})
+            const age = toRef(data,'age');
+            setTimeout(()=>{
+                age.value = 20;
+            },2000);
+            return {age}
+        }
+         
+        });
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>
