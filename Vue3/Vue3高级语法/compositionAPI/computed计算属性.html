@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // 在CompositionAPI中调用computed方法生成计算属性
+        // computed()可以接回调函数，也可以接{}，在对象里面会用到get，set方法，接收对象能实现更复杂的功能
+        const app = Vue.createApp({
+            setup(){
+                const {ref,computed,reactive} = Vue;
+                // const count = ref(0);
+                // const countAddFive = computed(()=>{
+                //     return count.value+5
+                // });
+                // handleClick = function(){
+                //     count.value++;
+                // };
+
+                const countObj = reactive({count:0});
+
+                // computed()返回一个ref的值
+                let countAddFive = computed({
+                    set:(param)=>{
+                        countObj.count = param -5
+                    },
+                    get:()=>{
+                        return countObj.count + 5
+                    }
+                    
+                });
+                setTimeout(()=>{
+                    countAddFive.value = 100;
+                },3000);
+                handleClick = function(){
+                    countObj.count++;
+                };
+                return {
+                    countObj,
+                    countAddFive,
+                    handleClick
+                }
+            },
+                
+            template:`
+                <div>
+                    <span @click="handleClick">{{countObj.count}}</span>---{{countAddFive}}
+                </div>
+            `
+        });
+        const vm =app.mount('#root');
+    </script>
+</body>
+</html>

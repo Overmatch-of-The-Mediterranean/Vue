@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // CompositionAPI里面没有beforeCreate和Created,因为setup函数在beforeCreate和Created之间的时间段执行
+        // 写在beforeCreate和Created的内容，可以直接写在setup里面
+        // 其余的6六个都有，而且还有新的生命周期函数,使用时只需传递回调函数
+        const app = Vue.createApp({
+            setup(){
+                const {onBeforeMount,onMounted,onBeforeUpdate,onUpdated,onBeforeUnmount,onUnmounted,ref,onRenderTracked,onRenderTriggered} = Vue;
+                const name = ref('dell');
+                const handleClick = function(){
+                    name.value = 'lee';
+                }
+                onUpdated(()=>{
+                    console.log('onUpdated');
+                });
+
+                // 页面只要渲染就执行，第一次加载页面也执行
+                onRenderTracked(()=>{
+                    console.log('onRenderTracked');
+                });
+
+                // 每次重新渲染后执行，第一次加载页面不执行
+                onRenderTriggered(()=>{
+                    console.log('onRenderTriggered');
+                });
+                return {name,handleClick}
+            },
+            template:'<div @click="handleClick">{{name}}</div>'
+        });
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>

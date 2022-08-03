@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // watch 仅能监听函数，数组，ref，reactive对象
+        // 1.具有一定的惰性，即，页面第一次加载不会监听
+        // 2.参数可以拿到当前和上次的值
+        // 3.可以以数组的形式监听多个数据的变化，此时参数也要写成数组形式，当前值和以前值分开，分别放在两个数组中
+        // 4.watch传入第三个参数{}，该参数可以对watch进行配置
+
+
+        // watchEffect 只需传入一个回调函数
+        // 1.没有惰性，立即执行
+        // 2.watchEffect会自动感知响应式数据，并执行回调函数，只要感应到数据变化，回调函数重新执行一遍
+        // 3.不能获取之前数据的值
+        const app = Vue.createApp({
+            // setup(props,context){
+            //     const {ref,watch} = Vue;
+            //     const name = ref('dell');
+            //     watch(name,(curValue,preValue)=>{
+            //         console.log(curValue,preValue);
+            //     })
+            //     return {name};
+            // },
+            // template:`
+            // <div>
+            //     Name:<input v-model="name"/> <br>
+            //     Name is {{name}}
+            // </div>
+            // `
+
+
+
+            setup(props,context){
+                const {reactive,toRefs,watch,watchEffect} = Vue;
+                const nameObj = reactive({name:'lee',age:18});
+
+                // 取消侦听的方法
+                const stop = watch([()=>nameObj.name,()=>nameObj.age],([curValue,curAge],[preValue,PreAge])=>{
+                    console.log(curValue,preValue,'----',curAge,PreAge);
+                    setTimeout(()=>{
+                        stop();
+                    },5000)
+                },{immediate:true})
+
+                // watchEffect
+                const stop1 = watchEffect(()=>{
+                    console.log(nameObj.name,nameObj.age);
+                    setTimeout(()=>{
+                        stop1();
+                    },5000)
+                })
+                const {name,age} = toRefs(nameObj)
+                return {name,age};
+            },
+            template:`
+            <div>
+                Name:<input v-model="name"/> <br>
+                Name:<input v-model="age"/> 
+            </div>
+            `
+        });
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>

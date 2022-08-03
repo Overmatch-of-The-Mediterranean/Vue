@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        // provide(名字,内容)
+        // inject(接收数据的名字,默认值)
+        // const app = Vue.createApp({
+        //     setup(){
+        //         const {ref,readonly,onMounted,provide,inject} = Vue;
+        //         const name = ref('dell');
+        //         provide('name',readonly(name));
+        //         provide('changeName',()=>{
+        //             // 这里的name不是readonly数据
+        //             name.value = 'lee';
+        //         });
+        //     },
+        //     template:`<child/>`
+        // });
+        
+
+        // 在哪定义的数据最好在哪里修改，子组件要修改父组件传递的数据，可以通过父组件传递过来的方法修改。
+        // 最好不要在子组件里直接修改，这样不会违背数据的单项传递
+        // app.component('child',{
+        //     setup(){
+        //         const {inject} = Vue;
+        //         const name = inject('name','hello')
+        //         const changeName = inject('changeName');
+        //         const handleClick=()=>{
+        //             // name.value = 'lee';
+        //             changeName();
+        //         };
+        //         return {handleClick,name}
+        //     },
+        //     template:`<div @click="handleClick">{{name}}</div>`
+        // });
+        
+
+
+
+        // 在CompositionAPI中获取Dom节点
+        // 标签中的ref是获取Dom节点引用
+        // CompositionAPI中的ref是生成响应式数据引用
+        const app = Vue.createApp({
+            setup(){
+                const {ref,onMounted} = Vue;
+                const Hello = ref(null);
+                onMounted(()=>{
+                    console.log(Hello.value);
+                })
+                return {Hello}
+            },
+            template:`<div ref="Hello">111</div>`
+        });
+        const vm = app.mount('#root');
+    </script>
+</body>
+</html>
