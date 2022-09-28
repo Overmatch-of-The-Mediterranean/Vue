@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script  src="../vue.js">
+        /* 模板语法：
+            1.插值语法：
+                功能：解析标签体内容
+                {{xxx}}，xxx为js表达式，vue中的所有属性和vue原型上的属性，都可以使用
+            2.指令语法: 
+                功能：解析标签(标签体，事件绑定，标签属性)
+                v-xxx,如，v-bind：herf:="xxx"，xxx为js表达式，可读取data中的所有属性 */
+  </script>
+</head>
+<body>
+    <div id="root">
+        我是{{name}}<br>
+        地址{{address}}
+    </div>
+    <script>
+        const vm = new Vue({
+            el:'#root',
+            data:{
+                name:'hhh',
+                address:'HPU'
+            }
+        });
+    </script>
+</body>
+</html>

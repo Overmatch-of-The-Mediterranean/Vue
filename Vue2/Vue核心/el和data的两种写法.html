@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script  src="../vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        我是{{name}}
+    </div>
+    <script>
+        const vm = new Vue({
+            // el:document.getElementById('root'),
+             // el指定当前实例为那个容器服务，值通常为css选择器字符串，也可为获取DOM的表达式
+            // data:{
+            //     name:'hhh'
+            // }
+
+            // data的第二种写法
+            data(){
+                return {
+                    name:'111'
+                }
+            }
+        });
+
+        // el的第二种写法 
+        vm.$mount('#root');
+
+        
+
+    </script>
+</body>
+</html>
