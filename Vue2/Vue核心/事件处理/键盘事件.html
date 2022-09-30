@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script  src="../../vue.js"></script>
+</head>
+<body>
+    <script>
+        /* 1.Vue中常用按键的别名
+                enter
+                delete
+                space
+                esc
+                tab，(必须配合keydown去使用，如果用keyup，当按键还没抬起时，光标就已经离开)
+                up
+                down
+                left
+                right
+
+            2.Vue中未提供别名的按键，可以使用按键原始的key值去绑定，注意，驼峰要写成小写加-,例如CapsLock，要写成caps-lock,才会生效
+
+            3.系统修饰键：shift,ctrl,alt,meta
+                (1).配合keyup使用，需要按着ctrl，再按着其他键并松开，才触发
+                (2).配合keydown使用正常
+            
+            4.也可以使用键码去指定具体的按键(不推荐，将来会被弃用，因为不同键盘键码可能不同)
+
+            5.Vue.config.keyCodes.自定义名 = 键码，可以自定义别名，但也不推荐
+        */
+       
+    </script>
+    <input type="text" id="root" @keyup.caps-lock="printf">
+    <script>
+        Vue.config.keyCodes.huiche = 13
+        const vm = new Vue({
+            el:'#root',
+            methods:{
+                printf(e){
+                    console.log('生效了');
+                    console.log(e.key,e.keyCode);
+                }
+            }
+        })
+    </script>
+</body>
+</html>

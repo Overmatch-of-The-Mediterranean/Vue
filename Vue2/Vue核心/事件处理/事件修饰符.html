@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script  src="../../vue.js"></script>
+    <style>
+        ul {
+            width: 200px;
+            height: 200px;
+            background-color: orange;
+            overflow: auto;
+        }
+        li {
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        /*
+            prevent: 阻止事件的默认行为，如，a标签的自动跳转
+            stop：阻止冒泡行为
+            once：事件只执行一次
+            capture：事件在捕获阶段就开始执行。不加capture，事件先捕获，到了冒泡阶段再执行
+            self：e.target是当前操作的元素时，事件才执行
+            passive：默认行为立即执行，无需等待事件回调执行完毕,常用于移动端开发
+        */
+    </script>
+    <!-- @scroll 只有滚动条动才执行 -->
+    <!-- @wheel 不管滚动条动不动，只要滚轮动就执行 -->
+    <ul id="root" @wheel.passive="handleScroll">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>6</li>
+        <li>7</li>
+        <li>8</li>
+    </ul>
+    <script>
+        const vm = new Vue({
+            el:'#root',
+            methods:{
+                handleScroll(){
+                    for(let i = 0;i<100;i++) {
+                        console.log(111);
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>

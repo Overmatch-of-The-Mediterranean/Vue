@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            background-color: orange;
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+    <script  src="../../vue.js"></script>
+</head>
+<body>
+    <script>
+        /* 技巧一：修饰符可以连着使用，执行顺序为先后顺序
+           技巧二：系统修饰键后面，可以再跟具体的键来进行限制
+        */
+    </script>
+    <!-- <div id="root" @click="click">
+        <a @click.stop.prevent="click" href="https://www.bilibili.com/video/BV1Zy4y1K7SH?p=17&vd_source=e8393cb6e77bc8795b35ed9cd5b81bd0">去B站</a>
+        <input @keyup.ctrl="" type="text">
+    </div> -->
+     <div id="root">
+        <input @keyup.ctrl.y="printf" type="text">
+    </div>
+    <script>
+        const vm = new Vue({
+            el:'#root',
+            methods:{
+                click(){
+                    alert('111')
+                },
+                printf(){
+                    console.log('222')
+                }
+            }
+        })
+    </script>
+</body>
+</html>
