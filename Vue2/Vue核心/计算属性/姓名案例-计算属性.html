@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script  src="../../vue.js">
+        /* 
+        计算属性：
+            1.定义：通过已有属性计算出来的属性，就是计算属性
+            2.原理：底层借助了Object.definePropety()的getter和setter
+            3.get被调用的情况：
+                (1).计算属性第一次被查看
+                (2).计算属性中所依赖的属性被修改
+            4.与method相比的优点
+                computed有缓存机制，效率高，方便调试
+            5.备注：
+                (1).计算属性会被放在vue实例上,直接使用即可
+                (2).计算属性要被修改，必须写setter去响应修改，且setter中要引起计算中所依赖的属性发生变化
+            6.简写形式
+                仅使用getter时才可以
+        */
+    </script>
+</head>
+<body>
+    <div id="root">
+        姓：<input v-model="firstName" type="text"><br>
+        名：<input v-model="lastName" type="text"><br>
+        全名：{{fullName}}
+    </div>
+    <script>
+        const vm = new Vue({
+            el:'#root',
+            data:{
+                firstName:'张',
+                lastName:'三'
+            },
+            computed:{
+                // 完整形式
+                // fullName:{ 
+                //     get(){
+                //         return this.firstName + '-' + this.lastName
+                //     },
+                //     set(value){
+                //         const arr = value.split('-');
+                //         this.firstName = arr[0]
+                //         this.lastName = arr[1]
+                //     }
+                // }
+
+                // 简写形式
+                fullName(){
+                    return this.firstName + '-' + this.lastName
+                }
+                // 相当于
+                // fullName:function(){
+                //     return this.firstName + '-' + this.lastName
+                // }
+            }
+        })
+        console.log(vm)
+    </script>
+</body>
+</html>

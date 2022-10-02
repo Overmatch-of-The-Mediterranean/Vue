@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <script  src="../../vue.js">
+        /*
+            1.开发者工具注意点：当data和computed中的属性都没使用，其将不会更新
+            2.@click="xxx"，xxx可以时一些简单的语句，如@click="this.Hot = !this.Hot"
+            3.@click="alert(111)",不可以，因为模板与vue实例配死的，如果要使用，就要在data中写上window
+        */
+     </script>
+</head>
+<body>
+    
+    <div id="root">
+        今天天气很xxx<br>
+        <button @click="change">改变天气</button>
+    </div>
+    <script>
+        const vm = new Vue({
+            el:'#root',
+            data:{
+                Hot:false
+            },
+            computed:{
+                isHot(){
+                    return this.Hot? '炎热':'凉爽'
+                }
+            },
+            methods:{
+                change(){
+                    this.Hot = !this.Hot
+                }
+            }
+        })
+    </script>
+</body>
+</html>

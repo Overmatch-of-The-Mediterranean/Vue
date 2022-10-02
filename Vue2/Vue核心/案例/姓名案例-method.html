@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script  src="../../vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <input v-model="name1" type="text">
+        <input v-model="name1" type="text"><br>
+        <div>{{fullName()}}</div>
+    </div>
+    <script>
+        // 数据被修改，Vue会重新解读模板，找到哪里用到了修改的值进行替换，模板中的函数会帮你调用一遍
+        const name = {
+                name1:'张',
+                name2:'三'
+            }
+        const vm = new Vue({
+            el:'#root',
+            data:name,
+            methods:{
+                fullName(){
+                    return vm.name1 + '-' + vm.name2
+                }
+            }
+        })
+    </script>
+</body>
+</html>

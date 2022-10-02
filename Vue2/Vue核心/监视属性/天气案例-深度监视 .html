@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script  src="../../vue.js">
+        /*
+            深度监视：
+                1.Vue默认可以监视多层级的数据，Vue提供的watch默认不可以监视多层级的数据
+                2.watch监视的属性中配置了deep就可以监视多层级的数据
+        */
+    </script>
+</head>
+<body>
+    <div id="root">
+        <h2>a的值为{{numbers.a}}</h2>
+        <button @click="change()">a的值加一</button>
+    </div>
+    <script>
+        const vm = new Vue({
+            el:'#root',
+            data:{
+                Hot:false,
+                numbers:{
+                    a:1,
+                    b:2
+                }
+            },
+            methods:{
+                change(){
+                    this.numbers.a++
+                }
+            },
+            watch:{
+                numbers:{
+                    immediate:true, // 监视前默认执行一遍handler,
+                    deep:true,       // 深度监视
+                    handler(){
+                        console.log('numbers被改变')
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

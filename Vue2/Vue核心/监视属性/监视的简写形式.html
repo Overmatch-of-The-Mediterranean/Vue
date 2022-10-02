@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script  src="../../vue.js">
+        /*
+            监视的简写：
+                1.只使用handler时，才可以简写
+        */
+    </script>
+</head>
+<body>
+    <div id="root">
+        <h2>今天天气很{{info}}</h2>
+        <button @click="change">改变天气</button>
+    </div>
+    <script>
+        const vm = new Vue({
+            el:'#root',
+            data:{
+                Hot:false
+            },
+            methods:{
+                change(){
+                    this.Hot = !this.Hot
+                }
+            },
+            computed:{
+                info(){
+                    return this.Hot? '炎热':'凉爽'
+                }
+            },
+            // 正常写法
+            // watch:{
+            //     Hot:{
+            //         immediate:true, // 监视前默认执行一遍handler,
+            //         // deep:true,       // 深度优先搜索
+            //         handler(newValue,oldValue){
+            //             console.log('天气被改变',newValue,oldValue);
+            //         }
+            //     }
+            // }
+
+
+            // watch简写
+            // watch:{
+            //     Hot(newValue,oldValue){
+            //         console.log('天气被改变',newValue,oldValue);
+            //     }
+            // }
+        });
+
+        // 正常写法
+        // vm.$watch('Hot',{
+        //     immediate:true, // 监视前默认执行一遍handler,
+        //             // deep:true,       // 深度优先搜索
+        //             handler(newValue,oldValue){
+        //                 console.log('天气被改变',newValue,oldValue);
+        //             }
+        // })
+
+
+        // 简写
+        vm.$watch('Hot',function(newValue,oldValue){
+            console.log('天气被改变',newValue,oldValue);
+        })
+    </script>
+</body>
+</html>

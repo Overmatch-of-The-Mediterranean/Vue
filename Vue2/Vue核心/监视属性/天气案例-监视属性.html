@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script  src="../../vue.js">
+        /*
+            监视属性watch：既可以监视属性，也可以监视计算属性
+                1.监视的属性必须存在，不存在也不会报错
+                2.监视的属性发生变化时，handler自动执行
+                3.watch的两种写法
+                    (1).在vue的配置中写
+                    (2).在vm.$watch('监视的属性',{})
+        */
+    </script>
+</head>
+<body>
+    <div id="root">
+        <h2>今天天气很{{info}}</h2>
+        <button @click="change">改变天气</button>
+    </div>
+    <script>
+        const vm = new Vue({
+            el:'#root',
+            data:{
+                Hot:false
+            },
+            methods:{
+                change(){
+                    this.Hot = !this.Hot
+                }
+            },
+            computed:{
+                info(){
+                    return this.Hot? '炎热':'凉爽'
+                }
+            },
+            // watch:{
+            //     Hot:{
+            //         immediate:true, // 监视前默认执行一遍handler,
+            //         // deep:true,       // 深度优先搜索
+            //         handler(newValue,oldValue){
+            //             console.log('天气被改变',newValue,oldValue);
+            //         }
+            //     }
+            // }
+        });
+        vm.$watch('Hot',{
+            immediate:true, // 监视前默认执行一遍handler,
+                    // deep:true,       // 深度优先搜索
+                    handler(newValue,oldValue){
+                        console.log('天气被改变',newValue,oldValue);
+                    }
+        })
+    </script>
+</body>
+</html>
