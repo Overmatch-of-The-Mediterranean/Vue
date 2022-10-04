@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script  src="../../vue.js">
+        /*
+        p34
+        */
+    </script>
+</head>
+<body>
+    <div id="root">
+
+    </div>
+    <script>
+        let data = {
+            name:'张三',
+            age:'20'
+        }
+        // 创建一个监视data中属性的实例对象
+        let obs =  new Observe(data)
+
+        const vm = {}
+
+        vm._data = data = obs
+        console.log(vm._data);
+        function Observe(obj){
+            // 将对象中的所有属性收集到数组中
+            const  keys = Object.keys(obj);
+            
+            // 遍历所有key
+            keys.forEach(k=>{
+                Object.defineProperty(this,k,{
+                    get(){
+                        return obj[k]
+                    },
+                    set(val){
+                        console.log(`${k}发生了改变，我要去忙了`);
+                        obj[k]=val
+                    }
+                })
+            })
+
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        
+    </style>
+    <script  src="../../vue.js">
+        /*
+            绑定style样式
+                1.:style="{fontSize:40px;color:red}"
+                2.:style="[a,b]"
+        */
+    </script>
+</head>
+<body>
+    <div id="root">
+        <div :style="{color:'blue',fontSize:'40px'}">style样式绑定</div>
+
+        <!-- 对象形式 -->
+        <div :style="styleObj">style样式绑定</div>
+
+        <!-- 数组形式 -->
+         <div :style="styleArr">style样式绑定</div>
+    </div>
+    <script>
+        const vm  = new Vue({
+            el:'#root',
+            data:{
+                styleObj:{
+                    fontSize:'40px',
+                    color:'red'
+                },
+                styleArr:[
+                    {
+                    fontSize:'40px',
+                    color:'red'
+                    },
+                    {
+                        backgroundColor:'green',
+                        borderRadius:'50%'
+                    }
+                ]
+            }
+        })
+    </script>
+</body>
+</html>

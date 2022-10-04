@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .basis{
+            width: 200px;
+            height: 200px;
+            background-color: gray;
+            margin-bottom: 50px;
+        }
+        .one {
+            background-color: red;
+        }
+        .two {
+            background-color: blue;
+        }
+        .three {
+            background-color: yellow;
+        }
+        .border{
+            border: 1px solid black;
+        }
+        .border-radius {
+            border-radius: 10%;
+        }
+        .color {
+            color: orange;
+        }
+        .fs{
+            font-size: 30px;
+        }
+    </style>
+    <script  src="../../vue.js">
+        /*
+            绑定class样式
+                1.字符串形式:适用于，样式的类名不确定，需要动态指定
+                2.数组形式：适用于，样式的个数不确定，类名也不确定
+                3.对象形式：适用于，样式的个数和类名都确定，但需要动态决定用不用
+        */
+    </script>
+</head>
+<body>
+    <div id="root">
+        <!-- 字符串形式 -->
+        <div class="basis" :class="single">样式变了</div>
+
+        <!-- 数组形式 -->
+        <div class="basis" :class="classArr">样式变了</div>
+
+        <!-- 对象形式 -->
+        <div class="basis" :class="classObj">样式变了</div>
+    </div>
+    <script>
+        const vm  = new Vue({
+            el:'#root',
+            data:{
+                single:'two',
+                classArr:['border','border-radius'],
+                classObj:{
+                    color:true,
+                    fs:false
+                }
+            }
+        })
+    </script>
+</body>
+</html>

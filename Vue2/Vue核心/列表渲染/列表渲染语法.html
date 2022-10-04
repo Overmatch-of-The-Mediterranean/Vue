@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script  src="../../vue.js">
+        /*
+        p29
+            列表渲染
+                语法：
+                    1.v-for="(item,index) in itemList"
+                    2.当有两个参数时，要写括号，否则一些老的脚手架会报错
+                2.遍历形式
+                    (1).遍历数组
+                    (2).遍历对象
+                    (3).遍历字符串(用的少)
+                    (4).遍历次数(用的少)
+        */
+    </script>
+    
+</head>
+<body>
+    <ul id="root">
+        <li v-for="(item,index) in person" :key="item.id">
+            {{item.name}}--{{item.age}}--{{index}}
+        </li>
+
+        <!-- 遍历次数 -->
+        <li v-for="(item,index) in 5" :key="index">
+            {{item}}--{{index}}
+        </li>
+    </ul>
+    <script>
+        const vm = new Vue({
+            el:'#root',
+            data:{
+                person:[
+                    {id:'001',name:'zs',age:18},
+                    {id:'002',name:'ls',age:20},
+                    {id:'003',name:'ws',age:22},
+                ]
+            }
+            
+        })
+    </script>
+</body>
+</html>

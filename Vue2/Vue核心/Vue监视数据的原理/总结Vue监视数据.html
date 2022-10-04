@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script  src="../../vue.js">
+        /*
+        p37
+        Vue监视数据的原理：
+            1.Vue可以监视多层级的数据
+
+            2.Vue监视对象的原理
+                通过setter检测对象中的属性，监视的数据要在new Vue的时候填写好
+                    1.后追加的属性Vue默认不做响应式处理
+                    2.若想将追加后的属性变为响应式数据，可以使用以下API
+                        (1).Vue.set(对那个对象添加, 添加的属性名(字符串形式), 属性值)
+                        (2).vm.$set(对那个对象添加, 添加的属性名(字符串形式), 属性值)
+
+            3.Vue监视数组的原理
+                通过包装的API监视，包装的API做了以下两件事
+                    1.调用原型对象上对应的方法
+                    2.重新解析模板，更新页面
+
+            4.修改数组中某一元素的方法
+                1.数组.7种变更方法，push(),pop(),shift(),unshift(),reverse(),sort(),splice()
+                2.Vue.set()或vm.$set()
+
+            特别注意：Vue.set()或vm.$set()，不能对vue实例对象和vue实例对象的根数据对象添加属性
+
+        数据劫持：修改data中的属性，setter劫持要修改的数据，进行两步操作
+            1.修改data中的属性
+            2.重新解析模板，更新页面
+        */
+    </script>
+</head>
+<body>
+    <div id="root">
+        <button @click="student.age++">年龄加一岁</button><br>
+        <button @click="addSex">添加性别属性</button><br>
+        <button @click="changeSex">修改性别</button><br>
+        <button @click="addFriend">在列表首位添加一个朋友</button><br>
+        <button @click="changeFriendName">修改第一个朋友的名字为小黑子</button><br>
+        <button @click="addHobby">添加一个爱好</button><br>
+        <button @click="addFirstHobby">修改第一个爱好为运动</button><br>
+        <button @click="removeWine">过滤掉爱好中的喝酒</button><br>
+        <h2>年龄：{{student.age}}</h2>
+        <h2 v-show="student.sex">性别：{{student.sex}}</h2>
+        <ul>
+            <li v-for="(item,index) in student.friends" :key="item.id">
+                {{item.name}}--{{item.age}}
+            </li>
+            <li v-for="(item,index) in student.hobby" :key="index">
+                {{item}}
+            </li>
+        </ul>
+    </div>
+    <script>
+        const vm = new Vue({
+            el:'#root',
+            data:{
+                student:{
+                    name:'尚硅谷',
+                    age:18,
+                    friends:[
+                        {id:'001',name:'张三',age:19},
+                        {id:'002',name:'李四',age:29},
+                    ],
+                    hobby:['抽烟','喝酒','打架']
+                }
+            },
+            methods:{
+                addSex(){
+                    // Vue.set(this.student,'sex','男')
+                    this.$set(this.student,'sex','男')
+                },
+                changeSex(){
+                    this.student.sex = '未知'
+                },
+                addFriend(){
+                    this.student.friends.unshift({id:'003',name:'王五',age:60})
+                },
+                changeFriendName(){
+                    this.student.friends[0].name='小黑子'
+                },
+                addHobby(){
+                    this.student.hobby.push('打乒乓球')
+                },
+                addFirstHobby(){
+                    this.student.hobby.splice(0,1,'运动')
+                },
+                removeWine(){
+                    this.student.hobby = this.student.hobby.filter(p=>{
+                        return p!=='喝酒'
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+</html>

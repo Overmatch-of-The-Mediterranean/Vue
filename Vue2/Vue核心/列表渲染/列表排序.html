@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+      <script  src="../../vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <ul id="root">
+            <input type="text" v-model="info">
+            <button @click="choice=2">降序排序</button>
+            <button @click="choice=1">升序排序</button>
+            <button @click="choice=0">原本顺序</button>
+        <li v-for="(item,index) in filterPerson" :key="item.id">
+            {{item.name}}--{{item.age}}--{{index}}
+        </li>
+    </ul>
+    </div>
+    <script>
+        // computed实现
+        const vm = new Vue({
+            el:'#root',
+            data:{
+                info:'',
+                choice:0,
+                person:[
+                    {id:'001',name:'马冬梅',age:26},
+                    {id:'002',name:'周冬雨',age:20},
+                    {id:'003',name:'周杰伦',age:30},
+                    {id:'004',name:'温兆伦',age:32}
+                ]
+            },
+            computed:{
+                filterPerson(){
+                    const arr = this.person.filter(p=>{
+                        return p.name.indexOf(this.info) !== -1
+                    })
+                    if(this.choice) {
+                        arr.sort((a,b)=>{
+                            return this.choice===1 ? a.age-b.age:b.age-a.age
+                        })
+                    }
+                    return arr
+                }
+            }
+        })
+    </script>
+</body>
+</html>

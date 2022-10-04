@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script  src="../../vue.js">
+        /*
+        p30
+        一. 虚拟DOM中key的作用：
+                key是每条数据的唯一标识，数据发生变化后，Vue会根据新数据生成新的虚拟Dom结点，
+                然后与旧的虚拟Dom结点进行比较
+
+        二. 对比规则
+            1.在旧虚拟Dom中找到与新虚拟Dom相同的key
+                (1).若内容相同，则复用之前的真实Dom结点
+                (2).若内容不同，则生成新的Dom结点，替换掉原来的Dom结点
+            2.在旧虚拟Dom中未找到与新虚拟Dom相同的key
+                生成一个新的真实Dom结点，然后渲染到页面上
+
+        三. 使用index做key值的两个问题
+            1.在对数据进行逆序插入，逆序删除等破坏顺序结构的操作时，会产生没有必要的真实Dom结点 ===> 效率低，页面没有问题
+            2.结构具有输入类的Dom，会产生错误Dom更新  ===> 页面出现问题
+
+        四. 开发中如何选择key：
+            1.使用每条数据的唯一标识作为key值
+            2.在不破坏顺序结构的情况下，可以使用index做key值
+
+        五.备注：
+            如果不写key，Vue会默认加上key，key值从0开始
+        */
+    </script>
+</head>
+<body>
+    <ul id="root">
+        <li v-for="(item,index) in person" :key="index">
+            {{item.name}}--{{item.age}}--{{index}}
+            <input type="text">
+        </li>
+        <button @click="handleClick">添加老刘</button>
+    </ul>
+    <script>
+        const vm = new Vue({
+            el:'#root',
+            data:{
+                person:[
+                    {id:'001',name:'张三',age:18},
+                    {id:'002',name:'李四',age:20},
+                    {id:'003',name:'王五',age:22},
+                ]
+            },
+            methods:{
+                handleClick(){
+                    this.person.unshift({id:'004',name:'老刘',age:30})
+                }
+            }
+            
+        })
+    </script>
+</body>
+</html>
