@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <script  src="../../vue.js">
+        /*
+        p38
+        收集表单数据
+            1.<input type="text">，v-model默认收集value的值，用户输入就是value
+            2.<input type="radio">，v-model默认收集value的值，但value的值需要自己配置，要想实现单选效果，需要写相同的name
+            3.<input type="checkbox">
+                (1).没有配置value属性：v-model默认收集check的值,即，布尔类型
+                (2).配置value的属性
+                    ①.v-model绑定的数据是非数组时，收集的就是checked
+                    ②.v-model绑定的数据是数组时，收集的就是value组成的数组
+            4.v-model的三个修饰符
+                (1).trim，去除输入内容前后的空格，中间空格不去除
+                (2).number，将收集的数据变为数字类型，配合<input type="number">使用
+                (3).lazy，等光标从输入框消失后，再收集数据
+        */
+     </script>
+</head>
+<body>
+    <div id="root">
+        去除空格：<input type="text" v-model.trim="one"><br><br>
+        性别：
+        男：<input type="radio" v-model="male" name="sex" value="male">
+        女：<input type="radio" v-model="female" name="sex" value="female"><br><br>
+        爱好：
+        冥想：<input type="checkbox" v-model="hobby" value="冥想">
+        运动：<input type="checkbox" v-model="hobby" value="运动">
+        跑步：<input type="checkbox" v-model="hobby" value="跑步"><br><br>
+        数字：<input type="number" v-model.number="num"><br><br>
+        懒收集：<input type="text" v-model.lazy="lazy">
+    </div>
+    <script>
+        const vm = new Vue({
+            el:'#root',
+            data:{
+                one:'',
+                male:'',
+                female:'',
+                hobby:[],
+                num:'',
+                lazy:''
+            }
+        })
+    </script>
+</body>
+</html>

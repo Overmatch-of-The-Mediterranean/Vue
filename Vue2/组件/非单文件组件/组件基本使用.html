@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script  src="../../vue.js">
+        /* Vue中使用组件的三大步骤
+                一. 定义组件
+                二. 注册组件
+                三. 使用组件
+
+            一. 如何定义一个组件
+                    1.使用Vue.extend(options),其中的options和new Vue中的options基本相同，但也有区别
+                    2.区别
+                        (1).组件的配置项中，不能写el配置项
+                        (2).组件中的data，要写成函数形式，避免各组件之间的引用
+
+            二. 如何注册组件
+                    1.局部注册，使用components:{}配置项
+                    2.全局注册，使用Vue.component('组件名', 组件)
+            
+            三. 编写组件标签
+                    <School></School>
+                    <School/>, 这种形式要在脚手架中写，否则会出现问题(如果不在脚手架中使用，会导致后面的组件无法被渲染)
+        */
+    </script>
+</head>
+<body>
+    <div id="root">
+        <School/>
+    </div>
+
+    <div id="root2">
+        <nowschool/>
+    </div>
+    <script>
+
+        // 全局组件
+        const nowschool = Vue.extend({
+            template:`
+                <div>
+                    <h2>{{name}}</h2>
+                    <h2>{{address}}</h2>
+                </div>
+            `,
+            data(){
+                return {
+                    name:'HPU',
+                    address:'焦作'
+                }
+            }
+        })
+        Vue.component('nowschool',nowschool)
+
+        // 局部组件
+        const School = Vue.extend({
+            template:`
+                <div>
+                    <h2>{{name}}</h2>
+                    <h2>{{address}}</h2>
+                </div>
+            `,
+            data(){
+                return {
+                    name:'尚硅谷',
+                    address:'北京'
+                }
+            }
+            
+        })
+
+        new Vue({
+            el:'#root',
+            components:{
+                School
+            }
+        })
+        new Vue({
+            el:'#root2'
+        })
+    </script>
+</body>
+</html>

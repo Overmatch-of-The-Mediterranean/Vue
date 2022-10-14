@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script  src="../../vue.js">
+        /*
+        p55
+            组件的几个注意点
+                1.组件的命名
+                        (1).一个单词组成组件名
+                                第一种写法school(小写)
+                                第二种写法School(大写), 推荐使用
+                        (2).多个单词组成组件名
+                                第一种写法(kebab-case命名)：my-school
+                                第二种写法(camelcase命名)：MySchool(脚手架中支持，否则会有问题)
+                        备注：
+                            (1). 组件名回避HTML中的标签名称
+                            (2). 可以使用组件中的name配置项, 在组件中起好名
+                2.关于组件标签
+                        <School/>写法，如果不在脚手架中使用，会导致后面的组件无法被渲染
+                3.简写方式
+                        const School = {
+                            name:xxx,
+                            template:'',
+                            data(){}
+                        }
+        */
+    </script>
+</head>
+<body>
+    <div id="root">
+        <School></School>
+        <School/>
+        <School></School>
+        <School></School>
+        <School></School>
+    </div>
+    <script>
+
+        const School = Vue.extend({
+            template:`
+                <div>
+                    <h2>{{name}}</h2>
+                    <h2>{{address}}</h2>
+                </div>
+            `,
+            data(){
+                return {
+                    name:'尚硅谷',
+                    address:'北京'
+                }
+            }
+            
+        })
+
+        new Vue({
+            el:'#root',
+            components:{
+                School
+            }
+        })
+    </script>
+</body>
+</html>

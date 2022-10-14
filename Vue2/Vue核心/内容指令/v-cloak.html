@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+    <script  src="http://localhost:8080/resource/5s/vue.js">
+        /*
+        v-cloak指令
+            1.本质是一个特殊属性，Vue实例创建完毕并接管容器后，会删除v-cloak指令
+            2.使用css配合v-cloak可以解决网速满时页面显示{{xxx}}的问题
+        */
+    </script>
+</head>
+<body>
+    <div id="root">
+        <h3 v-cloak>{{name}}</h3>
+    </div>
+    <script>
+        const vm = new Vue({
+            el:'#root',
+            data:{
+                name:'尚硅谷'
+            }
+        })
+    </script>
+</body>
+</html>

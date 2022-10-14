@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script  src="../../vue.js">
+        /*
+        p57
+            关于VueComponent构造函数
+                1.school组件本质是一个名为VueComponent的构造函数，由Vue.extend()自动生成
+                2.在使用<school></school>或<school/>时，Vue解析时会帮我们创建school组件的实例对象
+
+                3.特别注意：每次调用Vue.extend()返回的都是一个新的VueComponent实例对象
+
+                4.关于this指向：
+                    (1).组件配置中：
+                            data函数，methods中的函数，watch中的函数，computed中的函数等的this指向都是【VueComponent实例对象】
+                    (2).Vue实例配置中：
+                            data函数，methods中的函数，watch中的函数，computed中的函数等的this指向都是【Vue实例对象】
+
+                5.vm 管理 vc
+        */
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

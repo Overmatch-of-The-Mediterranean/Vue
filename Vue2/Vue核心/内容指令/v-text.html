@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script  src="../../vue.js">
+        /*
+        v-text指令：
+            1.作用：向其所在结点渲染文本内容
+            2.与插值语法的区别，v-text会替换掉节点中的内容
+        */
+    </script>
+</head>
+<body>
+    <div id="root">
+        <h3 v-text="name">123</h3>
+    </div>
+    <script>
+        const vm = new Vue({
+            el:'#root',
+            data:{
+                name:'尚硅谷'
+            }
+        })
+    </script>
+</body>
+</html>

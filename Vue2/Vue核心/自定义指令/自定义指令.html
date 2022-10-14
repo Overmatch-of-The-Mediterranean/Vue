@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script  src="../../vue.js">
+        /* 自定义指令总结：
+                一. 定义语法:
+                        (1). 局部指令：
+                                new Vue({                               new Vue({
+                                    directives:{                            directives:{
+                                        指令名：配置对象   或                       指令名(){}
+                                    }                                                   }
+                                })                                              )}
+                        (2). 全局指令
+                                Vue.directive(指令名字，配置对象)   或   Vue.directive(指令名字，function(){})
+                二. 配置对象中的三个回调
+                        (1)bind(){} 在元素与指令初次绑定成功时执行
+                        (2)inserted(){} 在元素被挂载到页面时执行
+                        (3)update(){} 所依赖的数据更新时执行
+                三. 备注：
+                        1.指令定义时，不加v-，指令使用时要加v-
+                        2.指令名如果是多个单词，要使用-连接，不要用驼峰式写法
+        */
+    </script>
+</head>
+<body>
+    <div id="root">
+        <span v-big="n"></span><br>
+        <button @click="n++">点我n++</button><br>
+        <span v-big-two="n"></span><br>
+        <button @click="n++">点我n翻倍</button><br>
+        <input type="text" v-fbind:value="n">
+    </div>
+
+    <div id="root2">
+        <span v-big="x"></span><br>
+        <button @click="x++">点我x++</button><br>
+    </div>
+    <script>
+        // 全局指令
+        Vue.directive('big',function(element,binding){
+            element.innerText = binding.value * 10
+        })
+        new Vue({
+            el:'#root',
+            data:{
+                n:1
+            },
+            directives:{
+                big(element,binding){
+                    element.innerText = binding.value * 10
+                },
+                fbind:{
+                    bind(element,binding){
+                        element.value = binding.value
+                    },
+                    inserted(element,binding){
+                        element.focus()
+                    },
+                    update(element,binding){
+                        element.value = binding.value
+                    }
+                },
+                'big-two'(element,binding){
+                    element.innerText = binding.value * 2
+                }
+            }
+        })
+        new Vue({
+            el:'#root2',
+            data:{
+                x:10
+            }
+        })
+    </script>
+</body>
+</html>
