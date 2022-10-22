@@ -57,3 +57,54 @@
                 this.$off('事件名')，this.$off()表示解绑所有自定义事件
     6，组件也可以绑定原生DOM事件，需要使用.native修饰符
     7.注意：通过 this.refs.student.$on()绑定自定义事件时，回调要么配置在methods中，要么在this.refs.student.$on()中使用箭头函数
+
+
+## 全局事件总线
+    1.一种组件间娥通信方式
+    2.安装全局事件总线
+        ```
+            new Vue({
+                ......
+                beforeCreate(){
+                    Vue.prototype.$bus = this
+                }
+                ......
+            })
+        ```
+    3.使用全局事件
+        1.接收数据，A想接收数据，需要给$bus绑定自定义事件，事件的回调留在A中
+            ```
+                mounted(){
+                    this.$bus.$on('事件名'，回调函数)
+                }
+            ```
+        2.传递数据，B向A传递数据，需要触发$bus上的自定义事件
+            ```
+                this.$emit('事件名'，数据)
+            ```
+    4.最好在beforeDestroy钩子中，用$off解绑当前组件在$bus上定义的自定义事件
+
+
+    ## 消息订阅与发布
+    适用于任何组件间通信
+    1.安装pubsub-js库
+    2.哪里使用在哪里引用进去，import pubsub from 'pubsub-js',相当于在全局中多了个pubsub
+    3.订阅(接收)消息：
+        ```
+            methods:{
+                demo(msg,data){}
+            },
+            mounted(){
+                const subId = pubsub.subscribe('消息名字'，this.demo)
+
+                // 注意，直接写函数，要用箭头函数
+                const subId = pubsub.subscribe('消息名字'，()=>{})
+            }
+        ```
+    4.发布(传递)消息
+        ```
+            pubsub.publish('消息名字'，数据)
+        ```
+    5.最好在beforeDestroy钩子中，用pubsub.unsubscribe(subId)取消订阅
+    备注：全局事件总线比订阅使用的多
+
