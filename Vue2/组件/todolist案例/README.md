@@ -85,7 +85,7 @@
     4.最好在beforeDestroy钩子中，用$off解绑当前组件在$bus上定义的自定义事件
 
 
-    ## 消息订阅与发布
+## 消息订阅与发布
     适用于任何组件间通信
     1.安装pubsub-js库
     2.哪里使用在哪里引用进去，import pubsub from 'pubsub-js',相当于在全局中多了个pubsub
@@ -108,3 +108,31 @@
     5.最好在beforeDestroy钩子中，用pubsub.unsubscribe(subId)取消订阅
     备注：全局事件总线比订阅使用的多
 
+
+## $nextTick
+    1.语法：this.$nextTick(回调函数)
+    2.在下一次模板更新完后，nextTick中的回调函数会执行
+    3.什么时候使用，当数据发生变化后，需要用新生成的DOM进行操作时使用，操作写入nextTick的回调函数中
+
+
+## Vue封装的动画与过渡
+    1.作用：在插入，更新，移除DOM元素时，在合适的时候给元素添加样式类名
+    2.过渡写法：
+        1..v-enter, .v-leave-to    起点
+        2..v-enter-active,.v-leave-active    过程  transition: .5s linear
+        3..v-enter-to, .v-leave    终点
+    3.动画写法
+        .v-enter-active{ animation: 名字 .5s linear; }
+        .v-leave-active{ animation: 名字 .5s linear reverse; }
+        @keyframes 名字 {
+            from {位置}
+            to {位置}
+        }
+    3.transition与transition-group
+        1.transition只能含一个根元素
+        2.transition-group可含多个根元素，但每个元素需要有key值
+
+    备注：
+        1.appear属性，页面刚刚打开就有效果
+        2.name属性：命名
+        3.第三方Animate.css库
